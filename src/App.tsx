@@ -1,10 +1,23 @@
 import React from 'react';
 
+import { Header } from './components/Header';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Home } from './pages/Home';// Assuming your pages are in a 'pages' directory
+import { About } from './pages/About';
+import { Mix } from './pages/Mix';
+import { Recommend } from './pages/Recommend';
+
 const MyComponent: React.FC = () => {
   return (
-    <div className="bg-blue-500 text-white p-90">
-      This is a component with Tailwind CSS styles!
-    </div>
+    <BrowserRouter>
+    <Header />
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/mix" element={<Mix />} />
+      <Route path="/recommend" element={<Recommend />} />
+    </Routes>
+  </BrowserRouter>
   );
 };
 
