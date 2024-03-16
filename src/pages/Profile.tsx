@@ -1,0 +1,243 @@
+//import React from 'react'
+
+import { useEffect, useState } from 'react'
+import { Dropdown } from '../components/Dropdown'
+import { UserResponse } from '../interfaces/user_response'
+import { UserService } from '../service/user_service'
+import { useUtil } from '../utils/date_format'
+
+export const Profile = () => {
+    const [user, setUser] = useState<UserResponse>()
+    const [isEdit, setIsEdit] = useState(false)
+
+    const userApi = new UserService()
+    useEffect(() => {
+        var id = localStorage.getItem('id') || sessionStorage.getItem('id')
+
+        userApi
+            .getUserById(id)
+            .then((response) => {
+                setUser(response.data)
+            })
+            .catch((error) => {
+                console.error('Error fetching user data:', error)
+            })
+    }, [])
+
+    const formatDate = useUtil.formatDate(user?.birthday || new Date())
+    const [birthdayTemp, setBirthdayTemp] = useState({
+        day: formatDate.day,
+        month: formatDate.month,
+        year: formatDate.year,
+    })
+
+    const handleEdit = async () => {
+        if (isEdit != true) {
+            setIsEdit(true)
+        } else {
+            setUser({
+                ...user,
+                birthday: useUtil.formatDate_DB(
+                    birthdayTemp.day,
+                    birthdayTemp.month,
+                    birthdayTemp.year
+                ),
+            })
+            var id = sessionStorage.getItem('id') || localStorage.getItem('id')
+            setUser({
+                ...user,
+                birthday: useUtil.formatDate_DB(
+                    birthdayTemp.day,
+                    birthdayTemp.month,
+                    birthdayTemp.year
+                ),
+            })
+            await userApi.updateUser(id, user)
+        }
+    }
+
+    return (
+        <div className="bg-bonjour flex justify-center py-10 px-96">
+            <div className="container bg-white rounded-xl font-roboto text-lavidbrown px-16 py-16">
+                <div className="text-3xl">Personal information</div>
+                <div className="flex justify-center my-10">
+                    <img
+                        src="https://cdn.discordapp.com/attachments/1108674012361543770/1213420793405513818/image.png?ex=65f5692d&is=65e2f42d&hm=42b6534d116ab9b79dccb027e71a8d974e3b344e70deb6ffd94f7e47d5e67a5e&"
+                        className="size-28"
+                    />
+                </div>
+                <form>
+                    <div className="grid grid-cols-2 gap-2 mb-5">
+                        <div className="mr-6">
+                            <div className="text-sm">Username</div>
+                            <input
+                                type="text"
+                                className="text-base text-venus rounded-lg bg-bonjour border-b border-venus w-full p-2"
+                                value={user?.username || ''}
+                                onChange={(e) =>
+                                    setUser({
+                                        ...user,
+                                        username: e.target.value,
+                                    })
+                                }
+                                disabled={!isEdit}
+                            />
+                        </div>
+                        <div></div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 mb-5">
+                        <div className="mr-6">
+                            <div className="text-sm">First name</div>
+                            <input
+                                type="text"
+                                className="text-base text-venus rounded-lg bg-bonjour border-b border-venus w-full p-2"
+                                value={user?.firstName || ''}
+                                onChange={(e) =>
+                                    setUser({
+                                        ...user,
+                                        firstName: e.target.value,
+                                    })
+                                }
+                                disabled={!isEdit}
+                            />
+                        </div>
+                        <div>
+                            <div className="text-sm">Last name</div>
+                            <input
+                                type="text"
+                                className="text-base text-venus rounded-lg bg-bonjour border-b border-venus w-full p-2"
+                                value={user?.lastName || ''}
+                                onChange={(e) =>
+                                    setUser({
+                                        ...user,
+                                        lastName: e.target.value,
+                                    })
+                                }
+                                disabled={!isEdit}
+                            />
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 mb-5">
+                        <div className="mr-6">
+                            <div className="text-sm">Telephone Number</div>
+                            <input
+                                type="text"
+                                className="text-base text-venus rounded-lg bg-bonjour border-b border-venus w-full p-2"
+                                value={user?.telephone || ''}
+                                onChange={(e) =>
+                                    setUser({
+                                        ...user,
+                                        telephone: e.target.value,
+                                    })
+                                }
+                                disabled={!isEdit}
+                            />
+                        </div>
+                        <div>
+                            <div className="text-sm">
+                                Description about yourself
+                            </div>
+                            <input
+                                type="text"
+                                className="text-base text-venus rounded-lg bg-bonjour border-b border-venus w-full p-2"
+                                value={user?.description || ''}
+                                onChange={(e) =>
+                                    setUser({
+                                        ...user,
+                                        description: e.target.value,
+                                    })
+                                }
+                                disabled={!isEdit}
+                            />
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-4">
+                        <div>
+                            <div className="text-sm">Birthday</div>
+                            <Dropdown
+                                value={birthdayTemp.day}
+                                start={1}
+                                end={31}
+                                disabled={!isEdit}
+                                onChange={(e) =>
+                                    setBirthdayTemp({
+                                        ...birthdayTemp,
+                                        day: parseInt(e.target.value),
+                                    })
+                                }
+                            />
+                        </div>
+                        <div>
+                            <div className="text-sm">Month</div>
+                            <Dropdown
+                                value={birthdayTemp.month}
+                                start={1}
+                                end={12}
+                                disabled={!isEdit}
+                                onChange={(e) =>
+                                    setBirthdayTemp({
+                                        ...birthdayTemp,
+                                        month: parseInt(e.target.value),
+                                    })
+                                }
+                            />
+                        </div>
+                        <div>
+                            <div className="text-sm">Year</div>
+                            <Dropdown
+                                value={birthdayTemp.year}
+                                start={1950}
+                                end={2024}
+                                disabled={!isEdit}
+                                onChange={(e) =>
+                                    setBirthdayTemp({
+                                        ...birthdayTemp,
+                                        year: parseInt(e.target.value),
+                                    })
+                                }
+                            />
+                        </div>
+                        <div>
+                            <div className="text-sm">Gender</div>
+                            <div className="mr-6">
+                                <select
+                                    className="text-base text-venus rounded-lg bg-bonjour border-b border-venus w-full p-2"
+                                    value={user?.gender}
+                                    onChange={(e) =>
+                                        setUser({
+                                            ...user,
+                                            gender: e.target.value,
+                                        })
+                                    }
+                                    disabled={!isEdit}
+                                >
+                                    <option key="Male" value="Male">
+                                        Male
+                                    </option>
+                                    <option key="Female" value="Female">
+                                        Female
+                                    </option>
+                                    <option
+                                        key="Not specified"
+                                        value="Not specified"
+                                    >
+                                        Not specified
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex justify-center">
+                        <button
+                            type="button"
+                            className="text-2xl text-bonjour w-96 bg-lavidbrown rounded-lg py-3 my-5"
+                            onClick={handleEdit}
+                        >
+                            {isEdit ? 'Save' : 'Edit'}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    )
+}

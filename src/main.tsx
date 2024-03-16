@@ -1,11 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './styles/tailwind.css';
 import App from './App.tsx';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const container = document.getElementById('root');
+
+// Use non-null assertion operator (!) to tell TypeScript that `container` is not null or undefined
+const root = createRoot(container!);
+root.render(<App />);
