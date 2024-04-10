@@ -114,8 +114,8 @@ export const Header: React.FC = () => {
                         <a href="/" className="">
                             Home
                         </a>
-                        <a href="/about" className="">
-                            Perfumes
+                        <a href="/knowledge" className="">
+                            Knowledges
                         </a>
                         <a href="/mix" className="">
                             Mix Perfumes

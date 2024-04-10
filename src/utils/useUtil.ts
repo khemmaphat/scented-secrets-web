@@ -20,4 +20,12 @@ export class useUtil {
         const formattedDate = new Date(year, month - 1, day)
         return formattedDate
     }
+
+    public static genEnglishCharacterArray() {
+        const characters: string[] = []
+        for (let i = 65; i <= 90; i++) {
+            characters.push(String.fromCharCode(i))
+        }
+        return characters
+    }
 }

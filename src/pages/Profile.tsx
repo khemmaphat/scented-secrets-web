@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { Dropdown } from '../components/Dropdown'
 import { UserResponse } from '../interfaces/user_response'
 import { UserService } from '../service/user_service'
-import { useUtil } from '../utils/date_format'
+import { useUtil } from '../utils/useUtil'
 
 export const Profile = () => {
     const [user, setUser] = useState<UserResponse>()
@@ -62,7 +62,7 @@ export const Profile = () => {
                 <div className="text-3xl">Personal information</div>
                 <div className="flex justify-center my-10">
                     <img
-                        src="https://cdn.discordapp.com/attachments/1108674012361543770/1213420793405513818/image.png?ex=65f5692d&is=65e2f42d&hm=42b6534d116ab9b79dccb027e71a8d974e3b344e70deb6ffd94f7e47d5e67a5e&"
+                        src="https://cdn.discordapp.com/attachments/1108674012361543770/1213420793405513818/image.png?ex=661118ad&is=65fea3ad&hm=f7eb619f94a580cfc3754b50fd012a686b7e74f7c86c754f5bcbe3c7b453f2f0&"
                         className="size-28"
                     />
                 </div>
