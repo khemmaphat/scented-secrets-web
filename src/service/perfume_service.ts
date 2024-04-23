@@ -1,5 +1,7 @@
 import {
+    AvgScoreCommment,
     PerfumeDataDetail,
+    PerfumeMixedResult,
     SearchRequest,
 } from '../interfaces/perfume_interface'
 import { ApiService } from './api_service'
@@ -18,9 +20,13 @@ export class PerfumeServiceArray extends ApiService<ApiResponseDataArray> {
     public async getAllGroupNote(): Promise<ApiResponseDataArray> {
         return this.get(`/api/getallgroupnote`)
     }
+
+    public async getPerfumePath(): Promise<ApiResponseDataArray> {
+        return this.get(`/api/perfumepath`)
+    }
 }
 
-export class PerfumeService extends ApiService<ApiResponse<PerfumeDataDetail>> {
+export class PerfumeService extends ApiService<ApiResponse<any>> {
     public async getPerfumeDetail(
         id: string | ''
     ): Promise<ApiResponse<PerfumeDataDetail>> {
@@ -28,5 +34,17 @@ export class PerfumeService extends ApiService<ApiResponse<PerfumeDataDetail>> {
             throw new Error('id is require')
         }
         return this.get(`/api/perfume?id=${id}`)
+    }
+
+    public async getResultMixedPerfume(
+        answered: string
+    ): Promise<ApiResponse<PerfumeMixedResult>> {
+        return this.get(`/api/resultmixed?answered=${answered}`)
+    }
+
+    public async getPerfumeComment(
+        perfumeId: string
+    ): Promise<ApiResponse<AvgScoreCommment>> {
+        return this.get(`/api/comment?perfumeId=${perfumeId}`)
     }
 }

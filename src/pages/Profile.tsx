@@ -62,8 +62,8 @@ export const Profile = () => {
                 <div className="text-3xl">Personal information</div>
                 <div className="flex justify-center my-10">
                     <img
-                        src="https://cdn.discordapp.com/attachments/1108674012361543770/1213420793405513818/image.png?ex=661118ad&is=65fea3ad&hm=f7eb619f94a580cfc3754b50fd012a686b7e74f7c86c754f5bcbe3c7b453f2f0&"
-                        className="size-28"
+                        src="https://firebasestorage.googleapis.com/v0/b/scented-secrets-1958e.appspot.com/o/user.png?alt=media&token=447a2546-705f-4cae-86dc-9c607504e0a9"
+                        className="size-32"
                     />
                 </div>
                 <form>

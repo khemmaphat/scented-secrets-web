@@ -2,7 +2,7 @@ export interface SearchRequest {
     Search?: string
     SearchType?: string
     SearchGroup?: string
-    CosineValue?: number
+    CosineValue: number
     PageSize?: number
     PageNum?: number
     Gender?: string
@@ -20,11 +20,11 @@ export interface PerfumeDataDetail {
     brand: string
     description: string
     howTo: string
-    notes: Notes
+    notes: NotesForDetail
     gender: string
     imgUrl: string
     cosineValue: number
-    perfumeType: []
+    perfumeType: string[]
 }
 
 export interface Notes {
@@ -44,4 +44,31 @@ export interface Note {
     description: string
     group: string
     imgUrl: string
+}
+
+export interface PerfumeMixedResult {
+    notes: Notes
+    description: string
+}
+
+export interface NotesForDetail {
+    topNotes: Note[]
+    middleNotes: Note[]
+    baseNotes: Note[]
+}
+
+export interface AvgScoreCommment {
+    averageRating: number
+    likeRating: number
+    okRating: number
+    dislikeRating: number
+    comments: Comment[]
+}
+export interface Comment {
+    name: string
+    rating: number
+    comment: string
+}
+export interface PerfumePath {
+    path: string
 }

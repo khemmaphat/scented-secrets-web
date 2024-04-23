@@ -25,7 +25,7 @@ export const Questions: React.FC<InputProps> = ({ Questions }) => {
         }
     }
     const handleSubmitButton = () => {
-        nevigate('/result')
+        nevigate('/questionresult', { state: { answered } })
     }
 
     useEffect(() => {

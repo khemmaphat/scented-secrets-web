@@ -91,6 +91,8 @@ export const Header: React.FC = () => {
         }
     }
 
+    const [currentPage, setCurrentPage] = useState('Home')
+
     return (
         <>
             <nav className="bg-bonjour text-lavidbrown p-4">
@@ -111,16 +113,44 @@ export const Header: React.FC = () => {
                     </div>
 
                     <div className="font-roboto text-base space-x-10 ml-16 py-4">
-                        <a href="/" className="">
+                        <a
+                            href="/"
+                            className={`${
+                                currentPage == 'Home' &&
+                                'border border-lavidbrown rounded-lg p-2'
+                            }`}
+                            onClick={() => setCurrentPage('Home')}
+                        >
                             Home
                         </a>
-                        <a href="/knowledge" className="">
+                        <a
+                            href="/knowledge"
+                            className={`${
+                                currentPage == 'Knowledge' &&
+                                'border border-lavidbrown rounded-lg p-2'
+                            }`}
+                            onClick={() => setCurrentPage('Knowledge')}
+                        >
                             Knowledges
                         </a>
-                        <a href="/mix" className="">
+                        <a
+                            href="/mix"
+                            className={`${
+                                currentPage == 'Mix' &&
+                                'border border-lavidbrown rounded-lg p-2'
+                            }`}
+                            onClick={() => setCurrentPage('Mix')}
+                        >
                             Mix Perfumes
                         </a>
-                        <a href="/recommend" className="">
+                        <a
+                            href="/recommend"
+                            className={`${
+                                currentPage == 'Recommend' &&
+                                'border border-lavidbrown rounded-lg p-2'
+                            }`}
+                            onClick={() => setCurrentPage('Recommend')}
+                        >
                             Recommended
                         </a>
                     </div>
@@ -128,7 +158,7 @@ export const Header: React.FC = () => {
                         {isLogin ? (
                             <button>
                                 <img
-                                    src="https://cdn.discordapp.com/attachments/1108674012361543770/1213420793405513818/image.png?ex=65fea3ad&is=65ec2ead&hm=ea60728b593189ef0dfa3897e9cf150002cbe578c17567e1179422c2297c0642&"
+                                    src="https://firebasestorage.googleapis.com/v0/b/scented-secrets-1958e.appspot.com/o/user.png?alt=media&token=447a2546-705f-4cae-86dc-9c607504e0a9"
                                     className="ml-auto size-12"
                                     onClick={() => setOpenProfilePopup(true)}
                                 />
@@ -316,7 +346,7 @@ export const Header: React.FC = () => {
                         <div className="grid place-items-center">
                             <div>
                                 <img
-                                    src="https://cdn.discordapp.com/attachments/1108674012361543770/1213420793405513818/image.png?ex=65fea3ad&is=65ec2ead&hm=ea60728b593189ef0dfa3897e9cf150002cbe578c17567e1179422c2297c0642&"
+                                    src="https://firebasestorage.googleapis.com/v0/b/scented-secrets-1958e.appspot.com/o/user.png?alt=media&token=447a2546-705f-4cae-86dc-9c607504e0a9"
                                     className="ml-auto size-16"
                                 />
                             </div>
