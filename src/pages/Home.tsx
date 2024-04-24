@@ -201,8 +201,9 @@ export const Home = () => {
                                                 setCurrentCharacterSearch('#')
                                             }}
                                         />
-                                        {characters.map((character) => (
+                                        {characters.map((character, index) => (
                                             <TableButton
+                                                key={index}
                                                 label={character}
                                                 isClicked={
                                                     character ==
@@ -271,8 +272,9 @@ export const Home = () => {
                                                 setCurrentCharacterSearch('#')
                                             }}
                                         />
-                                        {characters.map((character) => (
+                                        {characters.map((character, index) => (
                                             <TableButton
+                                                key={index}
                                                 label={character}
                                                 isClicked={
                                                     character ==

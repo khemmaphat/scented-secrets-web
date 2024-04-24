@@ -4,6 +4,7 @@ import { SignIn_Req, SignUp_Req } from '../hooks/interfaces/IUser'
 import { Field } from './Field'
 import useUser from '../hooks/useUser'
 import { ProfilePopup } from './ProfilePopup'
+import { useNavigate } from 'react-router-dom'
 
 export const Header: React.FC = () => {
     const [openSignInPopup, setOpenSignInPopup] = useState(false)
@@ -23,6 +24,7 @@ export const Header: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState('')
     const [rememberMe, setRememberMe] = useState(false)
     const [isLogin, setIsLogin] = useState(false)
+
     useEffect(() => {
         if (
             sessionStorage.getItem('id') == null &&
@@ -91,7 +93,7 @@ export const Header: React.FC = () => {
         }
     }
 
-    const [currentPage, setCurrentPage] = useState('Home')
+    const nevigate = useNavigate()
 
     return (
         <>
@@ -113,46 +115,50 @@ export const Header: React.FC = () => {
                     </div>
 
                     <div className="font-roboto text-base space-x-10 ml-16 py-4">
-                        <a
-                            href="/"
+                        <button
                             className={`${
-                                currentPage == 'Home' &&
+                                window.location.pathname == '/' &&
                                 'border border-lavidbrown rounded-lg p-2'
                             }`}
-                            onClick={() => setCurrentPage('Home')}
+                            onClick={() => {
+                                nevigate('/')
+                            }}
                         >
                             Home
-                        </a>
-                        <a
-                            href="/knowledge"
+                        </button>
+                        <button
                             className={`${
-                                currentPage == 'Knowledge' &&
+                                window.location.pathname == '/knowledge' &&
                                 'border border-lavidbrown rounded-lg p-2'
                             }`}
-                            onClick={() => setCurrentPage('Knowledge')}
+                            onClick={() => {
+                                nevigate('/knowledge')
+                            }}
                         >
                             Knowledges
-                        </a>
-                        <a
-                            href="/mix"
+                        </button>
+                        <button
                             className={`${
-                                currentPage == 'Mix' &&
+                                window.location.pathname == '/mix' &&
                                 'border border-lavidbrown rounded-lg p-2'
                             }`}
-                            onClick={() => setCurrentPage('Mix')}
+                            onClick={() => {
+                                nevigate('/mix')
+                            }}
                         >
                             Mix Perfumes
-                        </a>
-                        <a
-                            href="/recommend"
+                        </button>
+                        <button
                             className={`${
-                                currentPage == 'Recommend' &&
+                                window.location.pathname == '/recommend' &&
                                 'border border-lavidbrown rounded-lg p-2'
                             }`}
-                            onClick={() => setCurrentPage('Recommend')}
+                            onClick={() => {
+                                nevigate('/recommend')
+                            }}
                         >
                             Recommended
-                        </a>
+                        </button>
                     </div>
                     <div className="ml-auto mr-6">
                         {isLogin ? (

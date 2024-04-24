@@ -199,9 +199,9 @@ export const Profile = () => {
                         </div>
                         <div>
                             <div className="text-sm">Gender</div>
-                            <div className="mr-6">
+                            <div className="mr-5 text-base text-venus rounded-lg bg-bonjour border-b border-venus p-2">
                                 <select
-                                    className="text-base text-venus rounded-lg bg-bonjour border-b border-venus w-full p-2"
+                                    className="w-full bg-bonjour"
                                     value={user?.gender}
                                     onChange={(e) =>
                                         setUser({

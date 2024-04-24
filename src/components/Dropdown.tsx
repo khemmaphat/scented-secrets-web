@@ -37,9 +37,9 @@ export const Dropdown: React.FC<InputProps> = ({
     const dataItems = generateArray(start, end)
 
     return (
-        <div className="mr-6">
+        <div className="mr-5 text-base text-venus rounded-lg bg-bonjour border-b border-venus p-2">
             <select
-                className="text-base text-venus rounded-lg bg-bonjour border-b border-venus w-full p-2"
+                className="w-full bg-bonjour"
                 value={value}
                 onChange={onChange}
                 disabled={disabled}

@@ -19,6 +19,7 @@ export const QuestionResult = () => {
         useState<QuestionResultResponse>()
 
     const questionService = new QuestionService()
+
     useEffect(() => {
         questionService
             .getResultQuestion(connectObjectValue(answered))

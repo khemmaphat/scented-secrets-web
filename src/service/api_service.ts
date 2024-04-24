@@ -17,4 +17,9 @@ export abstract class ApiService<T> {
         const response = await axios.patch(this.baseUrl + endpoint, data)
         return response.data
     }
+
+    async patchNoBody(endpoint: string): Promise<T> {
+        const response = await axios.patch(this.baseUrl + endpoint)
+        return response.data
+    }
 }

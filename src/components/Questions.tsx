@@ -2,17 +2,20 @@ import React, { useEffect, useState } from 'react'
 import { QuestionResponse } from '../interfaces/question_interface'
 import { useNavigate } from 'react-router-dom'
 import { Popup } from './Popup'
+import { UserService } from '../service/user_service'
 
 interface InputProps {
     Questions: QuestionResponse[] | undefined
 }
 
 export const Questions: React.FC<InputProps> = ({ Questions }) => {
+    var id = localStorage.getItem('id') || sessionStorage.getItem('id')
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [selectedChoice, setSelectedChoice] = useState('')
     const [answered, setAnswered] = useState<{ [key: number]: string }>({})
     const [openSubmitPopup, setOpenSubmitPopup] = useState(false)
     const nevigate = useNavigate()
+    const userService = new UserService()
 
     const handleChoiceClicked = (choice: string) => {
         setSelectedChoice(choice)
@@ -25,8 +28,11 @@ export const Questions: React.FC<InputProps> = ({ Questions }) => {
         }
     }
     const handleSubmitButton = () => {
+        userService.updateNameUser(id, nameTemp)
         nevigate('/questionresult', { state: { answered } })
     }
+
+    const [nameTemp, setNameTemp] = useState('')
 
     useEffect(() => {
         setAnswered({ ...answered, [currentQuestion]: selectedChoice })
@@ -80,6 +86,9 @@ export const Questions: React.FC<InputProps> = ({ Questions }) => {
                                     <input
                                         type="text"
                                         className="bg-white py-5 rounded-lg pl-5"
+                                        onChange={(e) =>
+                                            setNameTemp(e.target.value)
+                                        }
                                     />
                                 )}
                             </div>

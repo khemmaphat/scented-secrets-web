@@ -17,4 +17,8 @@ export class UserService extends ApiService<ApiResponse<UserResponse>> {
 
         return this.patch(`/api/edituser?id=${id}`, updatedData)
     }
+
+    public async updateNameUser(id: string | null, name: string | null) {
+        return this.patchNoBody(`/api/name?id=${id}&name=${name}`)
+    }
 }
