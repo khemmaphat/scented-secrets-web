@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { Popup } from './Popup'
-import { SignIn_Req, SignUp_Req } from '../hooks/interfaces/IUser'
 import { Field } from './Field'
-import useUser from '../hooks/useUser'
 import { ProfilePopup } from './ProfilePopup'
 import { useNavigate } from 'react-router-dom'
+import {
+    SignIn_Req,
+    SignIn_Res,
+    SignUp_Req,
+} from '../interfaces/user_interface'
+import { UserService } from '../service/user_service'
 
 export const Header: React.FC = () => {
     const [openSignInPopup, setOpenSignInPopup] = useState(false)
@@ -35,35 +39,37 @@ export const Header: React.FC = () => {
             setIsLogin(true)
         }
     }, [isLogin])
-    const { signIn, loginRes, signUp, signUpRes } = useUser.useUser()
 
-    const handleSignIn = async () => {
-        await signIn(signInData)
-        if (
-            loginRes.id != '' &&
-            signInData.username != '' &&
-            signInData.password != '' &&
-            rememberMe == true
-        ) {
-            localStorage.setItem('id', loginRes?.id || '')
-            setOpenSignInPopup(false)
-            location.reload()
-        } else if (signInData.username == '' && signInData.password == '') {
-            setErrorMessage('Username required and Password required')
-        } else if (signInData.username == '') {
-            setErrorMessage('Username Required')
-        } else if (signInData.password == '') {
-            setErrorMessage('Password required')
-        } else if (loginRes.error != '') {
-            setErrorMessage(loginRes?.error || '')
-        } else {
-            sessionStorage.setItem('id', loginRes?.id || '')
-            setOpenSignInPopup(false)
-            location.reload()
-        }
+    const userService = new UserService()
+    const [loginRes, setLoginRes] = useState<SignIn_Res>()
+    //const [signUpRes, setSignUpRes] = useState<SignUp_Res>()
+
+    const handleSignIn = () => {
+        userService
+            .signInUser(signInData)
+            .then((response) => {
+                if (response.error) {
+                    setErrorMessage(response.error)
+                } else {
+                    setLoginRes(response.data)
+                    setOpenSignInPopup(false)
+                    location.reload()
+                }
+            })
+            .catch((error) => {
+                console.error('Error search fetching data:', error)
+            })
     }
 
-    const handleSignUp = async () => {
+    useEffect(() => {
+        if (rememberMe != true) {
+            sessionStorage.setItem('id', loginRes?.id || '')
+        } else {
+            localStorage.setItem('id', loginRes?.id || '')
+        }
+    }, [loginRes?.id])
+
+    const handleSignUp = () => {
         if (signUpData.email == '') {
             setErrorMessage('Email required')
         } else if (signUpData.username == '') {
@@ -83,13 +89,19 @@ export const Header: React.FC = () => {
             reEnterPassword != '' &&
             reEnterPassword == signUpData.password
         ) {
-            await signUp(signUpData)
-            if (signUpRes.message != '') {
-                setOpenSignUpPopup(false)
-                setOpenSignInPopup(true)
-            } else {
-                setErrorMessage(signUpRes?.error || '')
-            }
+            userService
+                .signUpUser(signUpData)
+                .then((response) => {
+                    if (!response.error) {
+                        setOpenSignUpPopup(false)
+                        setOpenSignInPopup(true)
+                    } else {
+                        setErrorMessage(response.error)
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error search fetching data:', error)
+                })
         }
     }
 

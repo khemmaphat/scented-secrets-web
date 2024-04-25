@@ -308,6 +308,7 @@ export const Home = () => {
                                                         onClick={() => {
                                                             setSearchRequest({
                                                                 ...searchRequest,
+                                                                Search: '',
                                                                 SearchGroup:
                                                                     perfume.brand,
                                                                 SearchType:

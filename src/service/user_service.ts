@@ -1,8 +1,13 @@
 import { ApiResponse } from '../interfaces/api_response'
-import { UserResponse } from '../interfaces/user_response'
+import {
+    SignIn_Req,
+    SignIn_Res,
+    SignUp_Req,
+    UserResponse,
+} from '../interfaces/user_interface'
 import { ApiService } from './api_service'
 
-export class UserService extends ApiService<ApiResponse<UserResponse>> {
+export class UserService extends ApiService<ApiResponse<any>> {
     public getUserById(id: string | null): Promise<ApiResponse<UserResponse>> {
         return this.get(`/api/user?id=${id}`)
     }
@@ -20,5 +25,17 @@ export class UserService extends ApiService<ApiResponse<UserResponse>> {
 
     public async updateNameUser(id: string | null, name: string | null) {
         return this.patchNoBody(`/api/name?id=${id}&name=${name}`)
+    }
+
+    public async signInUser(
+        loginData: SignIn_Req
+    ): Promise<ApiResponse<SignIn_Res>> {
+        return this.post(`/api/login`, loginData)
+    }
+
+    public async signUpUser(
+        signUpUser: SignUp_Req
+    ): Promise<ApiResponse<SignUp_Req>> {
+        return this.post(`/api/user`, signUpUser)
     }
 }

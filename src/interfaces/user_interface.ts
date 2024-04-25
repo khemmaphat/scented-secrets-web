@@ -1,12 +1,20 @@
-export interface SignIn_Res {
-    id?: string
-    message?: string
-    error?: string
+export interface UserResponse {
+    username?: string
+    firstName?: string
+    lastName?: string
+    telephone?: string
+    description?: string
+    birthday?: Date
+    gender?: string
 }
 
 export interface SignIn_Req {
     username: string
     password: string
+}
+
+export interface SignIn_Res {
+    id?: string
 }
 
 export interface SignUp_Req {

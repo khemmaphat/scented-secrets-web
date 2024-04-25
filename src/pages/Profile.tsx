@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { Dropdown } from '../components/Dropdown'
-import { UserResponse } from '../interfaces/user_response'
+import { UserResponse } from '../interfaces/user_interface'
 import { UserService } from '../service/user_service'
 import { useUtil } from '../utils/useUtil'
 

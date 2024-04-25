@@ -4,7 +4,7 @@ export interface ApiResponse<T> {
     total?: number
     Code?: number
     data?: T
-    err?: string
+    error?: string
 }
 
 export interface ApiResponseDataArray {
