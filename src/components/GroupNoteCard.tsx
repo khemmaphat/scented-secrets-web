@@ -47,9 +47,8 @@ export const GroupNoteCard: React.FC<InputProps> = ({ GroupNotes }) => {
                 <div className="m-32">
                     <MySlider total={GroupNotes?.length || 0}>
                         {GroupNotes?.map((GroupNote, index) => (
-                            <div className="px-5">
+                            <div className="px-5" key={index}>
                                 <button
-                                    key={index}
                                     className="bg-bonjour border-4 border-lavidbrown rounded-lg px-5 py-8 w-full h-72"
                                     onClick={() => setGroup(GroupNote.name)}
                                 >

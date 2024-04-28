@@ -3,6 +3,9 @@ import { AdviceBox } from '../components/AdviceBox'
 import { GroupNoteCard } from '../components/GroupNoteCard'
 import { GroupNote } from '../interfaces/perfume_interface'
 import { PerfumeServiceArray } from '../service/perfume_service'
+import { useUtil } from '../utils/useUtil'
+import { SignInPopup } from '../components/SignInPopup'
+import { SignUpPopup } from '../components/SignUpPopup'
 
 export const Mix = () => {
     const [state, setState] = useState('Advice')
@@ -21,9 +24,11 @@ export const Mix = () => {
             })
     }, [])
 
+    const [isLogin, setIsLogin] = useState(useUtil.LoginCheck())
+    const [signUpPopup, setSignUpPopup] = useState(false)
     return (
         <div>
-            {state == 'Advice' ? (
+            {state === 'Advice' ? (
                 <AdviceBox
                     Topic="Mix Perfumes"
                     Detail=" The feature allows you to experiment with mixing perfumes by yourself for a new experience and to find the right fragrance for you."
@@ -33,6 +38,22 @@ export const Mix = () => {
             ) : (
                 <GroupNoteCard GroupNotes={groupNoteResponse} />
             )}
+            <SignInPopup
+                isShow={!isLogin}
+                openSignUpPopup={() => {
+                    setSignUpPopup(true)
+                    setIsLogin(true)
+                }}
+                onClose={() => {}}
+            />
+            <SignUpPopup
+                isShow={signUpPopup}
+                openSignInPopup={() => {
+                    setSignUpPopup(false)
+                    setIsLogin(false)
+                }}
+                onClose={() => {}}
+            />
         </div>
     )
 }

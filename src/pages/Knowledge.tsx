@@ -3,7 +3,7 @@ import React from 'react'
 export const Knowledge: React.FC = () => {
     return (
         <div className="mx-16 mt-16 font-roboto">
-            <div className="text-2xl"> Purfumes </div>
+            <div className="text-2xl"> Perfumes </div>
             <p className="text-base mt-5">
                 Perfume is a solution composed of volatile fragrance oils,
                 aromatic compounds, alcohol, and water, typically formulated by

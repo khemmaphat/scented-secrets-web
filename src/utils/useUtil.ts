@@ -28,4 +28,15 @@ export class useUtil {
         }
         return characters
     }
+
+    public static LoginCheck() {
+        if (
+            sessionStorage.getItem('id') == null &&
+            localStorage.getItem('id') == null
+        ) {
+            return false
+        }
+
+        return true
+    }
 }

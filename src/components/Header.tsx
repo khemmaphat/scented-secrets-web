@@ -1,33 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { Popup } from './Popup'
-import { Field } from './Field'
+
 import { ProfilePopup } from './ProfilePopup'
 import { useNavigate } from 'react-router-dom'
-import {
-    SignIn_Req,
-    SignIn_Res,
-    SignUp_Req,
-} from '../interfaces/user_interface'
-import { UserService } from '../service/user_service'
+import { SignInPopup } from './SignInPopup'
+import { SignUpPopup } from './SignUpPopup'
 
 export const Header: React.FC = () => {
-    const [openSignInPopup, setOpenSignInPopup] = useState(false)
-    const [openSignUpPopup, setOpenSignUpPopup] = useState(false)
     const [openProfilePopup, setOpenProfilePopup] = useState(false)
-    const [signInData, setSignInData] = useState<SignIn_Req>({
-        username: '',
-        password: '',
-    })
-    const [signUpData, setSignUpData] = useState<SignUp_Req>({
-        email: '',
-        username: '',
-        password: '',
-    })
-    const [reEnterPassword, setReEnterPassword] = useState('')
-
-    const [errorMessage, setErrorMessage] = useState('')
-    const [rememberMe, setRememberMe] = useState(false)
     const [isLogin, setIsLogin] = useState(false)
+    const [signInPopup, setSignInPopup] = useState(false)
+    const [signUpPopup, setSignUpPopup] = useState(false)
 
     useEffect(() => {
         if (
@@ -40,72 +22,9 @@ export const Header: React.FC = () => {
         }
     }, [isLogin])
 
-    const userService = new UserService()
-    const [loginRes, setLoginRes] = useState<SignIn_Res>()
-    //const [signUpRes, setSignUpRes] = useState<SignUp_Res>()
-
-    const handleSignIn = () => {
-        userService
-            .signInUser(signInData)
-            .then((response) => {
-                if (response.error) {
-                    setErrorMessage(response.error)
-                } else {
-                    setLoginRes(response.data)
-                    setOpenSignInPopup(false)
-                    location.reload()
-                }
-            })
-            .catch((error) => {
-                console.error('Error search fetching data:', error)
-            })
-    }
-
-    useEffect(() => {
-        if (rememberMe != true) {
-            sessionStorage.setItem('id', loginRes?.id || '')
-        } else {
-            localStorage.setItem('id', loginRes?.id || '')
-        }
-    }, [loginRes?.id])
-
-    const handleSignUp = () => {
-        if (signUpData.email == '') {
-            setErrorMessage('Email required')
-        } else if (signUpData.username == '') {
-            setErrorMessage('Username required')
-        } else if (signUpData.password == '') {
-            setErrorMessage('Password required')
-        } else if (reEnterPassword == '') {
-            setErrorMessage('Re-enter Password required')
-        } else if (signUpData.password != reEnterPassword) {
-            setErrorMessage('Password not match')
-        }
-
-        if (
-            signUpData.username != '' &&
-            signUpData.password != '' &&
-            signUpData.email != '' &&
-            reEnterPassword != '' &&
-            reEnterPassword == signUpData.password
-        ) {
-            userService
-                .signUpUser(signUpData)
-                .then((response) => {
-                    if (!response.error) {
-                        setOpenSignUpPopup(false)
-                        setOpenSignInPopup(true)
-                    } else {
-                        setErrorMessage(response.error)
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error search fetching data:', error)
-                })
-        }
-    }
-
     const nevigate = useNavigate()
+
+    useEffect(() => setSignUpPopup(signUpPopup), [signUpPopup])
 
     return (
         <>
@@ -151,7 +70,9 @@ export const Header: React.FC = () => {
                         </button>
                         <button
                             className={`${
-                                window.location.pathname == '/mix' &&
+                                (window.location.pathname == '/mix' ||
+                                    window.location.pathname ==
+                                        '/mixedresult') &&
                                 'border border-lavidbrown rounded-lg p-2'
                             }`}
                             onClick={() => {
@@ -162,7 +83,9 @@ export const Header: React.FC = () => {
                         </button>
                         <button
                             className={`${
-                                window.location.pathname == '/recommend' &&
+                                (window.location.pathname == '/recommend' ||
+                                    window.location.pathname ==
+                                        '/questionresult') &&
                                 'border border-lavidbrown rounded-lg p-2'
                             }`}
                             onClick={() => {
@@ -186,14 +109,14 @@ export const Header: React.FC = () => {
                                 <button
                                     type="button"
                                     className="text-lavidbrown"
-                                    onClick={() => setOpenSignInPopup(true)}
+                                    onClick={() => setSignInPopup(true)}
                                 >
                                     Sign In
                                 </button>
                                 <button
                                     type="button"
                                     className="text-bonjour bg-lavidbrown rounded-lg py-2 px-3"
-                                    onClick={() => setOpenSignUpPopup(true)}
+                                    onClick={() => setSignUpPopup(true)}
                                 >
                                     Sign Up
                                 </button>
@@ -201,161 +124,24 @@ export const Header: React.FC = () => {
                         )}
                     </div>
                 </div>
-                <Popup
-                    showPopup={openSignInPopup}
-                    onClose={() => setOpenSignInPopup(false)}
-                >
-                    <div className="font-roboto text-lavidbrown py-6 px-5">
-                        <div className="text-3xl">Sign In</div>
-                        <div className="text-base my-3">
-                            Doesn't have an account yet?
-                            <span
-                                className="text-hibiscus underline underline-offset-4"
-                                onClick={() => {
-                                    setOpenSignInPopup(false)
-                                    setOpenSignUpPopup(true)
-                                }}
-                            >
-                                Sign Up
-                            </span>
-                            <form className="mt-3">
-                                <Field
-                                    label="Username"
-                                    type="text"
-                                    value={signInData.username}
-                                    onChange={(e) =>
-                                        setSignInData({
-                                            ...signInData,
-                                            ['username']: e.target.value,
-                                        })
-                                    }
-                                />
-                                <Field
-                                    label="Password"
-                                    type="password"
-                                    value={signInData.password}
-                                    onChange={(e) =>
-                                        setSignInData({
-                                            ...signInData,
-                                            ['password']: e.target.value,
-                                        })
-                                    }
-                                />
-                                <div className="flex item-center space-x-2">
-                                    <input
-                                        type="checkbox"
-                                        className="form-checkbox h-5 w-5 item-center"
-                                        checked={rememberMe}
-                                        onChange={() =>
-                                            setRememberMe(!rememberMe)
-                                        }
-                                    />
-                                    <span className="text-sm">Remember me</span>
-                                </div>
-                                <div className="text-red-600 mt-3">
-                                    {errorMessage}
-                                </div>
-                                <button
-                                    type="button"
-                                    className="text-2xl text-bonjour bg-lavidbrown rounded-lg w-full py-3 my-4"
-                                    onClick={handleSignIn}
-                                >
-                                    Sign In
-                                </button>
-                                <div className="relative">
-                                    <div className="border-t border-gray-500 my-4"></div>
-                                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-bonjour px-4 text-gray-500">
-                                        or
-                                    </div>
-                                </div>
-                                <div className="flex justify-center space-x-2 text-sm">
-                                    <button className="bg-white border border-lavidbrown w-full py-3 rounded-lg my-4 flex items-center">
-                                        <img
-                                            src="https://cdn-icons-png.flaticon.com/512/281/281764.png"
-                                            className="w-6 m-1.5 mr-3"
-                                        ></img>
-                                        Sign In with Google
-                                    </button>
-                                    <button className="bg-white border border-lavidbrown w-full py-3 rounded-lg my-4 flex items-center">
-                                        <img
-                                            src="https://cdn-icons-png.flaticon.com/512/145/145802.png"
-                                            className="w-7 m-1.5"
-                                        ></img>
-                                        Sign In with Facebook
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </Popup>
-                <Popup
-                    showPopup={openSignUpPopup}
-                    onClose={() => setOpenSignUpPopup(false)}
-                >
-                    <div className="font-roboto text-lavidbrown py-6 px-5">
-                        <div className="text-3xl mb-4 mr-56">Sign Up</div>
-                        <Field
-                            label="Email"
-                            type="email"
-                            value={signUpData.email}
-                            onChange={(e) =>
-                                setSignUpData({
-                                    ...signUpData,
-                                    ['email']: e.target.value,
-                                })
-                            }
-                        />
-                        <Field
-                            label="Username"
-                            type="text"
-                            value={signUpData.username}
-                            onChange={(e) =>
-                                setSignUpData({
-                                    ...signUpData,
-                                    ['username']: e.target.value,
-                                })
-                            }
-                        />
-                        <Field
-                            label="Password"
-                            type="password"
-                            value={signUpData.password}
-                            onChange={(e) =>
-                                setSignUpData({
-                                    ...signUpData,
-                                    ['password']: e.target.value,
-                                })
-                            }
-                        />
-                        <Field
-                            label="Re-enter Password"
-                            type="password"
-                            value={reEnterPassword}
-                            onChange={(e) => setReEnterPassword(e.target.value)}
-                        />
-                        <div className="text-red-600 mt-3">{errorMessage}</div>
-                        <div>
-                            <button
-                                onClick={handleSignUp}
-                                className="text-2xl text-bonjour bg-lavidbrown rounded-lg w-full py-3 my-2"
-                            >
-                                Sign Up
-                            </button>
-                        </div>
-                        <div className="text-base my-1">
-                            Already signed up?
-                            <span
-                                className="text-hibiscus underline underline-offset-4"
-                                onClick={() => {
-                                    setOpenSignInPopup(true)
-                                    setOpenSignUpPopup(false)
-                                }}
-                            >
-                                Sign In
-                            </span>
-                        </div>
-                    </div>
-                </Popup>
+
+                <SignInPopup
+                    isShow={signInPopup}
+                    openSignUpPopup={() => {
+                        setSignInPopup(false)
+                        setSignUpPopup(true)
+                    }}
+                    onClose={() => setSignInPopup(false)}
+                />
+                <SignUpPopup
+                    isShow={signUpPopup}
+                    openSignInPopup={() => {
+                        setSignInPopup(true)
+                        setSignUpPopup(false)
+                    }}
+                    onClose={() => setSignUpPopup(false)}
+                />
+
                 <ProfilePopup
                     showPopup={openProfilePopup}
                     onClose={() => setOpenProfilePopup(false)}
@@ -378,7 +164,7 @@ export const Header: React.FC = () => {
                             onClick={() => {
                                 localStorage.removeItem('id')
                                 sessionStorage.removeItem('id')
-                                location.reload()
+                                window.location.reload()
                             }}
                             className="text-hibiscus"
                         >

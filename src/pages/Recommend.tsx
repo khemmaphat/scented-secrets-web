@@ -5,6 +5,9 @@ import { AdviceBox } from '../components/AdviceBox'
 import { Questions } from '../components/Questions'
 import { QuestionServiceArray } from '../service/question_service'
 import { QuestionResponse } from '../interfaces/question_interface'
+import { SignInPopup } from '../components/SignInPopup'
+import { useUtil } from '../utils/useUtil'
+import { SignUpPopup } from '../components/SignUpPopup'
 
 export const Recommend = () => {
     const [state, setState] = useState('Advice')
@@ -22,6 +25,8 @@ export const Recommend = () => {
             })
     }, [])
 
+    const [isLogin, setIsLogin] = useState(useUtil.LoginCheck())
+    const [signUpPopup, setSignUpPopup] = useState(false)
     return (
         <div>
             {state === 'Advice' && (
@@ -37,6 +42,22 @@ export const Recommend = () => {
                     <Questions Questions={questionResponse} />
                 </div>
             )}
+            <SignInPopup
+                isShow={!isLogin}
+                openSignUpPopup={() => {
+                    setSignUpPopup(true)
+                    setIsLogin(true)
+                }}
+                onClose={() => {}}
+            />
+            <SignUpPopup
+                isShow={signUpPopup}
+                openSignInPopup={() => {
+                    setSignUpPopup(false)
+                    setIsLogin(false)
+                }}
+                onClose={() => {}}
+            />
         </div>
     )
 }
