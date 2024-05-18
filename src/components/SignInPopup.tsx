@@ -29,13 +29,11 @@ export const SignInPopup: React.FC<inputProps> = ({
                 if (response.error) {
                     setErrorMessage(response.error)
                 } else {
-                    onClose
-                    if (rememberMe != true) {
-                        sessionStorage.setItem('id', response.data?.id || '')
-                    } else {
+                    if (rememberMe == true) {
                         localStorage.setItem('id', response.data?.id || '')
                     }
-                    window.location.reload()
+                    sessionStorage.setItem('id', response.data?.id || '')
+                    onClose()
                 }
             })
             .catch((error) => {
@@ -46,7 +44,7 @@ export const SignInPopup: React.FC<inputProps> = ({
     return (
         <div>
             <Popup showPopup={isShow} onClose={onClose}>
-                <div className="font-roboto text-lavidbrown py-6 px-5">
+                <div className="font-roboto text-lavidbrown py-6 px-5 w-96">
                     <div className="text-3xl">Sign In</div>
                     <div className="text-base my-3">
                         Doesn't have an account yet?
@@ -98,7 +96,7 @@ export const SignInPopup: React.FC<inputProps> = ({
                             >
                                 Sign In
                             </button>
-                            <div className="relative">
+                            {/* <div className="relative">
                                 <div className="border-t border-gray-500 my-4"></div>
                                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-bonjour px-4 text-gray-500">
                                     or
@@ -119,7 +117,7 @@ export const SignInPopup: React.FC<inputProps> = ({
                                     ></img>
                                     Sign In with Facebook
                                 </button>
-                            </div>
+                            </div> */}
                         </form>
                     </div>
                 </div>

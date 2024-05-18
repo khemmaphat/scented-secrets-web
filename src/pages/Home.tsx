@@ -15,7 +15,7 @@ export const Home = () => {
         Search: '',
         SearchType: '',
         SearchGroup: '',
-        CosineValue: 10.1,
+        CosineValue: 0,
         PageSize: 16,
         PageNum: 1,
         Gender: '',

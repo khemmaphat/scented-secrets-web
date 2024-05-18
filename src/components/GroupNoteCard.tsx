@@ -31,6 +31,19 @@ export const GroupNoteCard: React.FC<InputProps> = ({ GroupNotes }) => {
         }
     }
 
+    const handleNextClick = () => {
+        if (GroupNotes) {
+            const index = GroupNotes.findIndex(
+                (GroupNote) => GroupNote.name === group
+            )
+            if (index !== -1 && GroupNotes[index + 1]) {
+                setGroup(GroupNotes[index + 1].name)
+            } else {
+                setGroup('') // Resetting group if the next item is undefined or index is not found
+            }
+        }
+    }
+
     return (
         <div className="font-roboto">
             <div className="flex justify-center">
@@ -103,9 +116,18 @@ export const GroupNoteCard: React.FC<InputProps> = ({ GroupNotes }) => {
                     >
                         Submit
                     </button>
-                    <button className="bg-lavidbrown rounded-lg px-40 py-3 mx-2 my-16">
-                        Next
-                    </button>
+                    {GroupNotes &&
+                        GroupNotes.findIndex(
+                            (GroupNote) => GroupNote.name === group
+                        ) <
+                            GroupNotes.length - 1 && (
+                            <button
+                                className="bg-lavidbrown rounded-lg px-40 py-3 mx-2 my-16"
+                                onClick={handleNextClick}
+                            >
+                                Next
+                            </button>
+                        )}
                 </div>
             )}
 

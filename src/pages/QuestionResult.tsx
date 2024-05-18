@@ -69,18 +69,10 @@ export const QuestionResult = () => {
                     <button
                         className="bg-lavidbrown py-3 px-10 rounded-lg w-full flex justify-between"
                         onClick={() => {
-                            nevigate(
-                                `/perfumedetail-${perfumeResultDetail?.perfumeId}`,
-                                {
-                                    state: {
-                                        Id: perfumeResultDetail?.perfumeId,
-                                    },
-                                }
-                            )
-
-                            window.scrollTo({
-                                top: 0,
-                                behavior: 'smooth', // Optional: Adds smooth scrolling effect
+                            nevigate(`/perfumedetail`, {
+                                state: {
+                                    Id: perfumeResultDetail?.perfumeId,
+                                },
                             })
                         }}
                     >

@@ -4,10 +4,11 @@ import { ProfilePopup } from './ProfilePopup'
 import { useNavigate } from 'react-router-dom'
 import { SignInPopup } from './SignInPopup'
 import { SignUpPopup } from './SignUpPopup'
+import { useUtil } from '../utils/useUtil'
 
 export const Header: React.FC = () => {
     const [openProfilePopup, setOpenProfilePopup] = useState(false)
-    const [isLogin, setIsLogin] = useState(false)
+    const [isLogin, setIsLogin] = useState(useUtil.LoginCheck)
     const [signInPopup, setSignInPopup] = useState(false)
     const [signUpPopup, setSignUpPopup] = useState(false)
 
@@ -20,11 +21,9 @@ export const Header: React.FC = () => {
         } else {
             setIsLogin(true)
         }
-    }, [isLogin])
+    }, [sessionStorage.getItem('id'), localStorage.getItem('id')])
 
     const nevigate = useNavigate()
-
-    useEffect(() => setSignUpPopup(signUpPopup), [signUpPopup])
 
     return (
         <>
@@ -156,15 +155,23 @@ export const Header: React.FC = () => {
                             </div>
                             <div>NAME</div>
                         </div>
-                        <a href="/profile" className="mr-48">
+                        <button
+                            className="mr-48"
+                            onClick={() => {
+                                nevigate('/profile')
+                                setOpenProfilePopup(false)
+                            }}
+                        >
                             Profile
-                        </a>
+                        </button>
                         <div className="border-t border-gray-500 my-4"></div>
                         <button
                             onClick={() => {
                                 localStorage.removeItem('id')
                                 sessionStorage.removeItem('id')
-                                window.location.reload()
+                                nevigate('/')
+                                setOpenProfilePopup(false)
+                                setIsLogin(false)
                             }}
                             className="text-hibiscus"
                         >

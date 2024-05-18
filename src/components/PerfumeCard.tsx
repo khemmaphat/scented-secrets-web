@@ -27,11 +27,9 @@ export const PerfumeCard: React.FC<SearchProps> = ({
                 <button
                     className="absolute right-5 bottom-6 px-5 py-0.5 bg-lavidbrown text-bonjour rounded-lg"
                     onClick={() => {
-                        nevigate(`/perfumedetail-${PerfumeId}`, {
+                        nevigate(`/perfumedetail`, {
                             state: { Id: PerfumeId },
                         })
-
-                        window.location.reload()
                     }}
                 >
                     detail

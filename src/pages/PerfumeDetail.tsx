@@ -56,14 +56,10 @@ export const PerfumeDetail = () => {
             .catch((error) => {
                 console.error('Error fetching perfume detail data:', error)
             })
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
     }, [perfumeId])
 
     useEffect(() => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth', // Optional: Adds smooth scrolling effect
-        })
-
         perfumeServiceArray
             .getSearchPerfumeData(perfumeSearch)
             .then((response) => {
@@ -234,7 +230,7 @@ export const PerfumeDetail = () => {
                 <div className="mb-10"> {perfumeDetail?.description}</div>
             </div>
             <div>
-                <div className="text-3xl mb-5">PerfumeType</div>
+                <div className="text-3xl mb-5">How to use</div>
                 <div className="mb-10"> {perfumeDetail?.howTo}</div>
             </div>
             <div>

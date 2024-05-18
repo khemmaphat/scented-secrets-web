@@ -6,11 +6,11 @@ import { PerfumeServiceArray } from '../service/perfume_service'
 import { useUtil } from '../utils/useUtil'
 import { SignInPopup } from '../components/SignInPopup'
 import { SignUpPopup } from '../components/SignUpPopup'
+import { useNavigate } from 'react-router-dom'
 
 export const Mix = () => {
     const [state, setState] = useState('Advice')
     const [groupNoteResponse, setGroupNoteResponse] = useState<GroupNote[]>()
-
     const perfumeApi = new PerfumeServiceArray()
 
     useEffect(() => {
@@ -24,8 +24,10 @@ export const Mix = () => {
             })
     }, [])
 
-    const [isLogin, setIsLogin] = useState(useUtil.LoginCheck())
+    const isLogin = useUtil.LoginCheck()
+    const [signInPopup, setSignInPopup] = useState(!isLogin)
     const [signUpPopup, setSignUpPopup] = useState(false)
+    const navigate = useNavigate()
     return (
         <div>
             {state === 'Advice' ? (
@@ -39,20 +41,31 @@ export const Mix = () => {
                 <GroupNoteCard GroupNotes={groupNoteResponse} />
             )}
             <SignInPopup
-                isShow={!isLogin}
+                isShow={signInPopup}
                 openSignUpPopup={() => {
                     setSignUpPopup(true)
-                    setIsLogin(true)
+                    setSignInPopup(false)
                 }}
-                onClose={() => {}}
+                onClose={() => {
+                    if (
+                        sessionStorage.getItem('id') != null ||
+                        localStorage.getItem('id') != null
+                    ) {
+                        setSignInPopup(false)
+                        navigate(window.location.pathname, { replace: true })
+                    }
+                    navigate('/')
+                }}
             />
             <SignUpPopup
                 isShow={signUpPopup}
                 openSignInPopup={() => {
                     setSignUpPopup(false)
-                    setIsLogin(false)
+                    setSignInPopup(true)
                 }}
-                onClose={() => {}}
+                onClose={() => {
+                    navigate('/')
+                }}
             />
         </div>
     )

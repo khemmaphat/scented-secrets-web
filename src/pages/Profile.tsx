@@ -7,6 +7,7 @@ import { UserService } from '../service/user_service'
 import { useUtil } from '../utils/useUtil'
 import { SignInPopup } from '../components/SignInPopup'
 import { SignUpPopup } from '../components/SignUpPopup'
+//import { useNavigate } from 'react-router-dom'
 
 export const Profile = () => {
     const [user, setUser] = useState<UserResponse>()
@@ -24,7 +25,7 @@ export const Profile = () => {
             .catch((error) => {
                 console.error('Error fetching user data:', error)
             })
-    }, [])
+    }, [isEdit])
 
     const formatDate = useUtil.formatDate(user?.birthday || new Date())
     const [birthdayTemp, setBirthdayTemp] = useState({
@@ -33,6 +34,7 @@ export const Profile = () => {
         year: formatDate.year,
     })
 
+    //const nevigate = useNavigate()
     const handleEdit = async () => {
         if (isEdit != true) {
             setIsEdit(true)
@@ -55,7 +57,7 @@ export const Profile = () => {
                 ),
             })
             await userApi.updateUser(id, user)
-            window.location.reload()
+            setIsEdit(false)
         }
     }
     const [isLogin, setIsLogin] = useState(useUtil.LoginCheck())

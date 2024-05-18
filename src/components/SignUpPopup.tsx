@@ -47,7 +47,7 @@ export const SignUpPopup: React.FC<inputProps> = ({
                 .signUpUser(signUpData)
                 .then((response) => {
                     if (!response.error) {
-                        openSignInPopup
+                        openSignInPopup()
                     } else {
                         setErrorMessage(response.error)
                     }
