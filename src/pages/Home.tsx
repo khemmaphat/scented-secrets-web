@@ -127,12 +127,13 @@ export const Home = () => {
                 <button
                     key={i}
                     className="bg-white py-3 px-5 rounded-lg"
-                    onClick={() =>
+                    onClick={() => {
                         setSearchRequest({
                             ...searchRequest,
                             PageNum: i + 1,
                         })
-                    }
+                        window.scrollTo(0, 0)
+                    }}
                 >
                     {i + 1}
                 </button>
@@ -236,7 +237,7 @@ export const Home = () => {
                                                         className="text-base text-left ml-5 my-2"
                                                         onClick={() =>
                                                             nevigate(
-                                                                `/perfumedetail-${perfume.perfumeId}`,
+                                                                `/perfumedetail`,
                                                                 {
                                                                     state: {
                                                                         Id: perfume.perfumeId,
